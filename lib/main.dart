@@ -1,23 +1,104 @@
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'questions.dart';
-import 'QuizBrain.dart';
+import 'story_brain.dart';
 
-QuizBrain quizbrain = QuizBrain();
-void main() => runApp(Quizzler());
+//TODO: Step 15 - Run the app and see if you can see the screen update with the first story. Delete this TODO if it looks as you expected.
 
-class Quizzler extends StatelessWidget {
-  const Quizzler({Key? key}) : super(key: key);
+void main() => runApp(Destini());
 
+class Destini extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.grey.shade900,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: QuizPage(),
+      theme: ThemeData.dark(),
+      home: const StoryPage(),
+    );
+  }
+}
+
+StoryBrain storyBrain = StoryBrain();
+
+class StoryPage extends StatefulWidget {
+  const StoryPage({Key? key}) : super(key: key);
+
+  @override
+  _StoryPageState createState() => _StoryPageState();
+}
+
+class _StoryPageState extends State<StoryPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(image: AssetImage('images/background.png'),
+            fit : BoxFit.cover
+          ),
+        ),
+        //TODO: Step 1 - Add background.png to this Container as a background image.
+        padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 15.0),
+        constraints: const BoxConstraints.expand(),
+        child: SafeArea(
+
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                flex: 12,
+                child: Center(
+                  child: Text(
+
+                    storyBrain.getStory(),
+                    style: const TextStyle(
+                      fontSize: 25.0,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: FlatButton(
+                  onPressed: () {
+                   setState(() {
+                     storyBrain.nextStory(1);
+                   });
+                  },
+                  color: Colors.red,
+                  child:  Text(
+
+                    storyBrain.getChoice1(),
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              Expanded(
+                flex: 2,
+                //TODO: Step 26 - Use a Flutter Visibility Widget to wrap this FlatButton.
+
+                child: Visibility(
+                  visible: storyBrain.buttonShouldBeVisible(),
+                  child: FlatButton(
+                    onPressed: () {
+                    setState(() {
+                      storyBrain.nextStory(2);
+                    });
+                    },
+                    color: Colors.blue,
+                    child:  Text(
+                      storyBrain.getChoice2(),
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -25,122 +106,7 @@ class Quizzler extends StatelessWidget {
   }
 }
 
-class QuizPage extends StatefulWidget {
-  @override
-  _QuizPageState createState() => _QuizPageState();
-}
+//TODO: Step 24 - Run the app and try to figure out what code you need to add to this file to make the story change when you pres s on the choice buttons.
 
-class _QuizPageState extends State<QuizPage> {
-  List<Icon> scoreKeeper = [];
-  void checkAnswer(bool userPickedAnswer) {
-    bool correctAnswer = quizbrain.getCorrectAnswer();
-
-    setState(() {
-      //TODO: Step 4 - Use IF/ELSE to check if we've reached the end of the quiz. If so,
-      //On the next line, you can also use if (quizBrain.isFinished()) {}, it does the same thing.
-      if (quizbrain.isFinished() == true) {
-        //TODO Step 4 Part A - show an alert using rFlutter_alert,
-        Alert(
-          context: context,
-          title: 'Finished!',
-          desc: 'You\'ve reached the end of the quiz.',
-        ).show();
-
-        //TODO Step 4 Part C - reset the questionNumber,
-        quizbrain.reset();
-
-        //TODO Step 4 Part D - empty out the scoreKeeper.
-        scoreKeeper = [];
-      }
-
-      //TODO: Step 6 - If we've not reached the end, ELSE do the answer checking steps below 👇
-      else {
-        if (userPickedAnswer == correctAnswer) {
-          scoreKeeper.add(const Icon(
-            Icons.check,
-            color: Colors.green,
-          ));
-        } else {
-          scoreKeeper.add(const Icon(
-            Icons.close,
-            color: Colors.red,
-          ));
-        }
-        quizbrain.nextQuestion();
-      }
-    });
-  }
-
-  // Questions q1 =Questions('you can lead a cow upstairs but not downstairs',false);
-  // Questions q2 =Questions('Approximately one quarters of bones are in feet',true);
-  // Questions q3 =Questions('a Slug\'s blood is green',true);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Expanded(
-          flex: 5,
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Center(
-              child: Text(
-                quizbrain.getQuestion(),
-                style: const TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: FlatButton(
-              textColor: Colors.white,
-              color: Colors.green,
-              child: const Text(
-                'True',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
-              ),
-              onPressed: () {
-
-                checkAnswer(true);
-              },
-            ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: FlatButton(
-              color: Colors.red,
-              child: const Text(
-                'False',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                ),
-              ),
-              onPressed: () {
-
-                checkAnswer(false);
-              },
-            ),
-          ),
-        ),
-        Row(
-          children: scoreKeeper,
-        )
-        //TODO: Add a Row here as your score keeper
-      ],
-    );
-  }
-}
+//TODO: Step 29 - Run the app and test it against the Story Outline to make sure you've completed all the steps. The code for the completed app can be found here: https://github.com/londonappbrewery/destini-challenge-completed/
 
