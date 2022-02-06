@@ -1,112 +1,51 @@
 import 'package:flutter/material.dart';
-import 'story_brain.dart';
 
-//TODO: Step 15 - Run the app and see if you can see the screen update with the first story. Delete this TODO if it looks as you expected.
+import 'package:flutter/material.dart';
 
-void main() => runApp(Destini());
+void main() => runApp(const BMICalculator());
 
-class Destini extends StatelessWidget {
+class BMICalculator extends StatelessWidget {
+  const BMICalculator({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      home: const StoryPage(),
+    return  MaterialApp(
+     theme: ThemeData.dark().copyWith(
+       primaryColor: Color(0xFF0A0E21),
+       scaffoldBackgroundColor: Color(0xFF0A0E21),
+     ),
+      home: InputPage(),
     );
   }
 }
 
-StoryBrain storyBrain = StoryBrain();
-
-class StoryPage extends StatefulWidget {
-  const StoryPage({Key? key}) : super(key: key);
+class InputPage extends StatefulWidget {
+  const InputPage({Key? key}) : super(key: key);
 
   @override
-  _StoryPageState createState() => _StoryPageState();
+  _InputPageState createState() => _InputPageState();
 }
 
-class _StoryPageState extends State<StoryPage> {
+class _InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF0A0E21),
+        title: const Text('BMI CALCULATOR'),
 
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage('images/background.png'),
-            fit : BoxFit.cover
-          ),
-        ),
-        //TODO: Step 1 - Add background.png to this Container as a background image.
-        padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 15.0),
-        constraints: const BoxConstraints.expand(),
-        child: SafeArea(
+      ),
+      body: const Center(
 
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Expanded(
-                flex: 12,
-                child: Center(
-                  child: Text(
+        child: Text('Body Text'),
 
-                    storyBrain.getStory(),
-                    style: const TextStyle(
-                      fontSize: 25.0,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: FlatButton(
-                  onPressed: () {
-                   setState(() {
-                     storyBrain.nextStory(1);
-                   });
-                  },
-                  color: Colors.red,
-                  child:  Text(
-
-                    storyBrain.getChoice1(),
-                    style: const TextStyle(
-                      fontSize: 20.0,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Expanded(
-                flex: 2,
-                //TODO: Step 26 - Use a Flutter Visibility Widget to wrap this FlatButton.
-
-                child: Visibility(
-                  visible: storyBrain.buttonShouldBeVisible(),
-                  child: FlatButton(
-                    onPressed: () {
-                    setState(() {
-                      storyBrain.nextStory(2);
-                    });
-                    },
-                    color: Colors.blue,
-                    child:  Text(
-                      storyBrain.getChoice2(),
-                      style: const TextStyle(
-                        fontSize: 20.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('who is this');
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
 }
-
-//TODO: Step 24 - Run the app and try to figure out what code you need to add to this file to make the story change when you pres s on the choice buttons.
-
-//TODO: Step 29 - Run the app and test it against the Story Outline to make sure you've completed all the steps. The code for the completed app can be found here: https://github.com/londonappbrewery/destini-challenge-completed/
-
