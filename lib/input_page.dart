@@ -1,7 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'columnWidget.dart';
+import 'newWidget.dart';
 
 const activeColor = Color(0xFF1D1E33);
+const InactiveColor = Color(0xFF111328);
+enum Gender {
+  male,
+  female,
+
+}
 
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
@@ -11,6 +20,26 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Color maleCardColor = InactiveColor;
+  Color femaleCardColor = InactiveColor;
+  void updateColor(Gender gender){
+    if(gender == Gender.male){
+      if(maleCardColor == InactiveColor){
+        maleCardColor = activeColor;
+        femaleCardColor =InactiveColor;
+      } else{
+        maleCardColor = InactiveColor;
+      }
+    } else{
+      if(femaleCardColor == InactiveColor){
+        femaleCardColor = activeColor;
+        maleCardColor = InactiveColor;
+      }else{
+        femaleCardColor = InactiveColor;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,14 +53,32 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: NewWidget(
-                    activeColor,
+                  child: GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        updateColor(Gender.male);
+                      });
+                    },
+                    child: NewWidget(
+                      maleCardColor,
+                      ColumnWidget(FontAwesomeIcons.mars,'MALE'),
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: NewWidget(
-                   activeColor,
-                  ),
+
+                    child: GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          updateColor(Gender.female);
+                        });
+                      },
+                      child: NewWidget(
+                       femaleCardColor,
+                        ColumnWidget(FontAwesomeIcons.venus,'FEMALE'),
+                      ),
+                    ),
+
                 )
               ],
             ),
@@ -42,6 +89,7 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: NewWidget(
                     activeColor,
+                    ColumnWidget(FontAwesomeIcons.mars,'tobeUpdated')
                   ),
                 ),
               ],
@@ -53,11 +101,13 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: NewWidget(
                     activeColor,
+                      ColumnWidget(FontAwesomeIcons.plus,'tobeUpdated')
                   ),
                 ),
                 Expanded(
                   child: NewWidget(
                     activeColor,
+                      ColumnWidget(FontAwesomeIcons.mars,'tobeUpdated')
                   ),
                 )
               ],
@@ -71,20 +121,6 @@ class _InputPageState extends State<InputPage> {
           )
         ],
       ),
-    );
-  }
-}
-
-class NewWidget extends StatelessWidget {
-  NewWidget(@required this.Colour);
-  final Color Colour;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(15),
-      decoration:
-          BoxDecoration(color: Colour, borderRadius: BorderRadius.circular(10)),
     );
   }
 }
