@@ -9,7 +9,6 @@ const InactiveColor = Color(0xFF111328);
 enum Gender {
   male,
   female,
-
 }
 
 class InputPage extends StatefulWidget {
@@ -22,19 +21,20 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Color maleCardColor = InactiveColor;
   Color femaleCardColor = InactiveColor;
-  void updateColor(Gender gender){
-    if(gender == Gender.male){
-      if(maleCardColor == InactiveColor){
+  int height = 180;
+  void updateColor(Gender gender) {
+    if (gender == Gender.male) {
+      if (maleCardColor == InactiveColor) {
         maleCardColor = activeColor;
-        femaleCardColor =InactiveColor;
-      } else{
+        femaleCardColor = InactiveColor;
+      } else {
         maleCardColor = InactiveColor;
       }
-    } else{
-      if(femaleCardColor == InactiveColor){
+    } else {
+      if (femaleCardColor == InactiveColor) {
         femaleCardColor = activeColor;
         maleCardColor = InactiveColor;
-      }else{
+      } else {
         femaleCardColor = InactiveColor;
       }
     }
@@ -48,48 +48,86 @@ class _InputPageState extends State<InputPage> {
         title: const Text('BMI CALCULATOR'),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         updateColor(Gender.male);
                       });
                     },
                     child: NewWidget(
-                      maleCardColor,
-                      ColumnWidget(FontAwesomeIcons.mars,'MALE'),
+                      Colour: maleCardColor,
+                      childCard: ColumnWidget(FontAwesomeIcons.mars, 'MALE'),
                     ),
                   ),
                 ),
                 Expanded(
-
-                    child: GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          updateColor(Gender.female);
-                        });
-                      },
-                      child: NewWidget(
-                       femaleCardColor,
-                        ColumnWidget(FontAwesomeIcons.venus,'FEMALE'),
-                      ),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        updateColor(Gender.female);
+                      });
+                    },
+                    child: NewWidget(
+                      Colour: femaleCardColor,
+                      childCard: ColumnWidget(FontAwesomeIcons.venus, 'FEMALE'),
                     ),
-
+                  ),
                 )
               ],
             ),
           ),
           Expanded(
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
                   child: NewWidget(
-                    activeColor,
-                    ColumnWidget(FontAwesomeIcons.mars,'tobeUpdated')
+                    Colour: activeColor,
+                    childCard: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'HEIGHT',
+                          style: TextStyle(
+                            color: Color(0xFF8D8E98),
+                            fontSize: 18,
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          textBaseline: TextBaseline.alphabetic,
+                          children:  [
+                            Text(
+                              height.toString(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w900, fontSize: 50),
+                            ),
+                            const Text(
+                              'cm',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Color(0xFF8D8E98),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Slider(
+                          value: height.toDouble(),
+                          onChanged: null,
+                          min: 0,
+                          max: 240,
+                          divisions: 239,
+                          label: ,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -100,15 +138,15 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: NewWidget(
-                    activeColor,
-                      ColumnWidget(FontAwesomeIcons.plus,'tobeUpdated')
-                  ),
+                      Colour: activeColor,
+                      childCard:
+                          ColumnWidget(FontAwesomeIcons.plus, 'tobeUpdated')),
                 ),
                 Expanded(
                   child: NewWidget(
-                    activeColor,
-                      ColumnWidget(FontAwesomeIcons.mars,'tobeUpdated')
-                  ),
+                      Colour: activeColor,
+                      childCard:
+                          ColumnWidget(FontAwesomeIcons.mars, 'tobeUpdated')),
                 )
               ],
             ),

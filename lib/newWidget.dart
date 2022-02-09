@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 class NewWidget extends StatelessWidget {
-  NewWidget(this.Colour, this.childCard);
+  NewWidget({required this.Colour, required this.childCard});
   final Color Colour;
   final Widget childCard;
 
