@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'columnWidget.dart';
-import 'newWidget.dart';
+import '../compononents/columnWidget.dart';
+import '../compononents/newWidget.dart';
 import 'final_page.dart';
 
 const activeColor = Color(0xFF1D1E33);
@@ -261,22 +261,36 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: (){
+          BottomButton(
+            onTapi:  (){
               Navigator.push(context, MaterialPageRoute(builder: (context) => FinalPage()));
             },
-            child: Container(
-              alignment: Alignment.center,
-              color: Colors.pink,
-              width: double.infinity,
-              height: 80.0,
-              margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-              child: Text('CALCULATE',
-              style:const TextStyle(
-                  fontWeight: FontWeight.w900, fontSize: 25),),
-            ),
+            texit: 'CALCULATE',
           )
         ],
+      ),
+    );
+  }
+}
+
+class BottomButton extends StatelessWidget {
+  BottomButton({required this.onTapi, required this.texit});
+ final Function onTapi;
+ final String texit;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap:onTapi,
+      child: Container(
+        alignment: Alignment.center,
+        color: Colors.pink,
+        width: double.infinity,
+        height: 80.0,
+        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+        child:  Text(texit,
+        style:TextStyle(
+            fontWeight: FontWeight.w900, fontSize: 25),),
       ),
     );
   }
