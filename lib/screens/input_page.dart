@@ -1,9 +1,14 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../compononents/columnWidget.dart';
 import '../compononents/newWidget.dart';
 import 'final_page.dart';
+import 'package:flutter_first_app/compononents/BottonButtom.dart';
+import 'package:flutter_first_app/compononents/bmi_brain.dart';
 
 const activeColor = Color(0xFF1D1E33);
 const InactiveColor = Color(0xFF111328);
@@ -175,32 +180,32 @@ class _InputPageState extends State<InputPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             FloatingActionButton(
-                          backgroundColor: const Color(0xFF4C4F5E),
-                              child:const Icon(FontAwesomeIcons.minus,
-                              color: Colors.white,),
-                              onPressed: (){
+                              backgroundColor: const Color(0xFF4C4F5E),
+                              child: const Icon(
+                                FontAwesomeIcons.minus,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
                                 setState(() {
-                                  weight --;
+                                  weight--;
                                 });
-
                               },
-
                             ),
-                            const SizedBox(width: 10,),
+                            const SizedBox(
+                              width: 10,
+                            ),
                             FloatingActionButton(
                               backgroundColor: const Color(0xFF4C4F5E),
-
-                              child:const Icon(FontAwesomeIcons.plus,
-                              color: Colors.white,),
-                              onPressed: (){
-                               setState(() {
-                                 weight ++;
-                               });
+                              child: const Icon(
+                                FontAwesomeIcons.plus,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  weight++;
+                                });
                               },
-
                             )
-
-
                           ],
                         )
                       ],
@@ -211,13 +216,14 @@ class _InputPageState extends State<InputPage> {
                   child: NewWidget(
                     Colour: activeColor,
                     childCard: Column(
-                      children: [   const Text(
-                        'AGE',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xFF8D8E98),
+                      children: [
+                        const Text(
+                          'AGE',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Color(0xFF8D8E98),
+                          ),
                         ),
-                      ),
                         Text(
                           age.toString(),
                           style: const TextStyle(
@@ -228,33 +234,34 @@ class _InputPageState extends State<InputPage> {
                           children: [
                             FloatingActionButton(
                               backgroundColor: const Color(0xFF4C4F5E),
-                              child:const Icon(FontAwesomeIcons.minus,
-                                color: Colors.white,),
-                              onPressed: (){
+                              child: const Icon(
+                                FontAwesomeIcons.minus,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
                                 setState(() {
-                                  age --;
+                                  age--;
                                 });
-
                               },
-
                             ),
-                            const SizedBox(width: 10,),
+                            const SizedBox(
+                              width: 10,
+                            ),
                             FloatingActionButton(
                               backgroundColor: const Color(0xFF4C4F5E),
-
-                              child:const Icon(FontAwesomeIcons.plus,
-                                color: Colors.white,),
-                              onPressed: (){
+                              child: const Icon(
+                                FontAwesomeIcons.plus,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
                                 setState(() {
-                                  age ++;
+                                  age++;
                                 });
                               },
-
                             )
-
-
                           ],
-                        )],
+                        )
+                      ],
                     ),
                   ),
                 )
@@ -262,35 +269,22 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           BottomButton(
-            onTapi:  (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => FinalPage()));
+            onTapi: () {
+              Brain calc = Brain(height: height, weight: weight);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FinalPage(
+                    BMIresult: calc.getBMIcalcultor(),
+                    interpretation: calc.getInterpretation(),
+                    resultText: calc.getBMIresult(),
+                  ),
+                ),
+              );
             },
-            texit: 'CALCULATE',
+            text: 'CALCULATE',
           )
         ],
-      ),
-    );
-  }
-}
-
-class BottomButton extends StatelessWidget {
-  BottomButton({required this.onTapi, required this.texit});
- final Function onTapi;
- final String texit;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap:onTapi,
-      child: Container(
-        alignment: Alignment.center,
-        color: Colors.pink,
-        width: double.infinity,
-        height: 80.0,
-        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-        child:  Text(texit,
-        style:TextStyle(
-            fontWeight: FontWeight.w900, fontSize: 25),),
       ),
     );
   }

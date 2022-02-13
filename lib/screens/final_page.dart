@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first_app/constants.dart';
 import 'package:flutter_first_app/compononents/newWidget.dart';
 import 'package:flutter_first_app/screens/input_page.dart';
+import 'package:flutter_first_app/compononents/BottonButtom.dart';
 
 class FinalPage extends StatelessWidget {
-  const FinalPage({Key? key}) : super(key: key);
-
+  FinalPage({required this.BMIresult,required this.interpretation,required this.resultText});
+final String BMIresult;
+final String resultText;
+final String interpretation;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,8 +21,10 @@ class FinalPage extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              child: const Text(
-                'Your resul',
+              padding: const EdgeInsets.fromLTRB(15, 21, 15, 15),
+              alignment: Alignment.bottomLeft,
+              child:  Text(
+                BMIresult,
                 style: kTitleTextStyle,
               ),
             ),
@@ -31,16 +36,20 @@ class FinalPage extends StatelessWidget {
                 childCard: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text('who is this',
+                  children:   [
+                    Text(resultText,
                     style:kResultTextStyle,),
                     Text('18',style: kBMITextStyle,),
-                    Text('Your BMI result is too low , you should eat more',
-                    style: kBodyTextStyle,)
+                    Text(interpretation,
+                    style: kBodyTextStyle,),
+
 
                   ],
                 ),
               ),),
+          BottomButton(onTapi: (){
+           Navigator.pop(context);
+          }, text: 'RE-CALCULATE')
         ],
       ),
     );
